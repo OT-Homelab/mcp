@@ -1,8 +1,62 @@
 services:
 
+  postgresql:
+    container_name: postgres
+    hostname: postgres
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_super_password
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    hostname: pgadmin4
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: pgadmin_super_password
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+  emqx1:
+    image: emqx/emqx:latest
+    container_name: emqx1
+    restart: unless-stopped    
+    environment:
+      - EMQX_NAME=emqx1
+    ports:
+      - "1884:1883"      # MQTT
+      - "18083:18083"    # Dashboard
+      - "8083:8083"      # WebSocket
+      # - "8883:8883"      # TLS         
+    volumes:
+      - emqx1-data:/opt/emqx/data
+      - emqx1-log:/opt/emqx/log
+
+  grafana:
+    image: grafana/grafana-enterprise
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+
 
 volumes:
-
+  pg-data:
+  pgadmin-data:
+  grafana-data:
+  emqx1-data:
+  emqx1-log:
 
 networks:
   default:
