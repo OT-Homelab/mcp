@@ -50,26 +50,12 @@ services:
     volumes:
       - grafana-data:/var/lib/grafana
 
-  n8n:
-    image: ghcr.io/czlonkowski/n8n-mcp:latest
-    container_name: n8n
-    restart: unless-stopped
-    environment:
-      - GENERIC_TIMEZONE=Europe/Amsterdam
-      - NODE_ENV=production
-      - N8N_SECURE_COOKIE=false
-    ports:
-      - "5678:5678"
-    volumes:
-      - n8n-data:/home/node/.n8n
-
 volumes:
   pg-data:
   pgadmin-data:
   grafana-data:
   emqx1-data:
   emqx1-log:
-  n8n-data:
 
 networks:
   default:
