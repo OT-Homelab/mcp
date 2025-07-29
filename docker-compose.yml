@@ -51,7 +51,7 @@ services:
       - grafana-data:/var/lib/grafana
 
   n8n:
-    image: n8nio/n8n:latest
+    image: ghcr.io/czlonkowski/n8n-mcp:latest
     container_name: n8n
     restart: unless-stopped
     environment:
