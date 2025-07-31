@@ -14,7 +14,7 @@ services:
       - "4512:4512"
     restart: unless-stopped
     volumes:
-      - historian:/historian
+      - /opt/docker/timebase/historian:/historian
     environment:
       - Settings=/historian/settings
       - Data=/historian/data
@@ -34,7 +34,7 @@ services:
       - "4532:4532"
     restart: unless-stopped
     volumes:
-      - explorer:/explorer
+      - /opt/docker/timebase/explorer:/explorer
     environment:
       - Settings=/explorer/settings
       - Config=/explorer/config
@@ -55,7 +55,7 @@ services:
       - "4522:4522"
     restart: unless-stopped
     volumes:
-     - simulator:/simulator
+     - /opt/docker/timebase/simulator:/simulator
     environment:
       - Active=false
       - Settings=/simulator/settings
@@ -77,7 +77,7 @@ services:
       - "4524:4522"
     restart: unless-stopped
     volumes:
-     - opcua:/opcua
+     - /opt/docker/timebase/opcua:/opcua
     environment:
       - Active=false
       - Settings=/opcua/settings
@@ -99,7 +99,7 @@ services:
       - "4526:4522"
     restart: unless-stopped
     volumes:
-    - mqtt:/mqtt
+    - /opt/docker/timebase/mqtt:/mqtt
     environment:
       - Active=false
       - Settings=/mqtt/settings
@@ -121,7 +121,7 @@ services:
      - "4528:4522"
     restart: unless-stopped
     volumes:
-    - sparkplugb:/sparkplugb
+    - /opt/docker/timebase/sparkplugb:/sparkplugb
     environment:
       - Active=false
       - Settings=/sparkplugb/settings
@@ -198,13 +198,6 @@ volumes:
   emqx1-data:
   emqx1-log:
   n8n-data:
-  pulse:
-  historian:
-  explorer:
-  simulator:
-  opcua:
-  mqtt:
-  sparkplugb:
 
 networks:
   default:
