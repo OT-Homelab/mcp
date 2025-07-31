@@ -1,7 +1,5 @@
 services:
 
-services:  
-
   historian:
     image: timebase/historian:latest
     deploy:
