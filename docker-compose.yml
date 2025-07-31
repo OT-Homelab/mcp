@@ -1,56 +1,135 @@
 services:
 
-  # Timebase Historian Service
-  timebase-historian:
-    image: timebase/historian:latest                                              # Docker image for Timebase Historian with variable tag
-    hostname: timebase-historian                                                  # Hostname used for internal networking
-    container_name: timebase-historian                                            # Container name for easier management
-    ports:
-      - "4511:4511"                                                               # Map the Historian REST API port
-    restart: unless-stopped                                                       # Automatically restart unless stopped manually
-    environment:
-      - Settings=/historian/settings                                              # Path to the settings file
-      - Data=/historian/data                                                      # Path to the data directory
-      - Logs=/historian/logs                                                      # Path to the logs directory
-    volumes:
-      - timebase_historian:/historian
+services:  
 
-  # Timebase Collector Service
-  timebase-collector:
-    image: timebase/collector:latest                                              # Docker image for Timebase Collector with variable tag
-    hostname: timebase-collector                                                  # Hostname used for internal networking
-    container_name: timebase-collector                                            # Container name for easier management
+  historian:
+    image: timebase/historian:latest
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 4096m
+    hostname: historian
+    container_name: historian
     ports:
-      - "4521:4521"                                                               # Map the Collector REST API port
-    restart: unless-stopped                                                       # Automatically restart unless stopped manually
-    depends_on:
-      - timebase-historian                                                        # Ensure this service starts after the Historian
-    environment:
-      - Active=false                                                              # Set the initial state of the Collector service
-      - Settings=/collector/settings                                              # Path to the settings file
-      - Config=/collector/config                                                  # Path to the config directory
-      - Data=/collector/data                                                      # Path to the data directory
-      - Logs=/collector/logs                                                      # Path to the logs directory
+      - "4511:4511"
+      - "4512:4512"
+    restart: unless-stopped
     volumes:
-      - timebase_collector:/collector
+      - historian:/historian
+    environment:
+      - Settings=/historian/settings
+      - Data=/historian/data
+      - Logs=/historian/logs
 
-  # Timebase Explorer Service
-  timebase-explorer:
-    image: timebase/explorer:latest                                               # Docker image for Timebase Explorer with variable tag
-    hostname: timebase-explorer                                                   # Hostname used for internal networking
-    container_name: timebase-explorer                                             # Container name for easier management
+  explorer:
+    image: timebase/explorer:latest
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 2048m
+    hostname: explorer
+    container_name: explorer
     ports:
-      - "4531:4531"                                                               # Map the Explorer Web UI port
-    restart: unless-stopped                                                       # Automatically restart unless stopped manually
-    depends_on:
-      - timebase-historian                                                        # Ensure this service starts after the Historian
-    environment:
-      - Settings=/explorer/settings                                               # Path to the settings file
-      - Config=/explorer/config                                                   # Path to the config directory
-      - Data=/explorer/data                                                       # Path to the data directory
-      - Logs=/explorer/logs                                                       # Path to the logs directory
+      - "4531:4531"
+      - "4532:4532"
+    restart: unless-stopped
     volumes:
-      - timebase_explorer:/explorer
+      - explorer:/explorer
+    environment:
+      - Settings=/explorer/settings
+      - Config=/explorer/config
+      - Data=/explorer/data
+      - Logs=/explorer/logs
+ 
+  simulator:
+    image: timebase/collector:latest
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 4096m
+    hostname: simulator
+    container_name: simulator
+    ports:
+      - "4521:4521"
+      - "4522:4522"
+    restart: unless-stopped
+    volumes:
+     - simulator:/simulator
+    environment:
+      - Active=false
+      - Settings=/simulator/settings
+      - Config=/simulator/config
+      - Data=/simulator/data
+      - Logs=/simulator/logs
+
+  opcua:
+    image: timebase/collector:latest
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 2048m
+    hostname: opcua
+    container_name: opcua
+    ports:
+      - "4523:4521"
+      - "4524:4522"
+    restart: unless-stopped
+    volumes:
+     - opcua:/opcua
+    environment:
+      - Active=false
+      - Settings=/opcua/settings
+      - Config=/opcua/config
+      - Data=/opcua/data
+      - Logs=/opcua/logs
+
+  mqtt:
+    image: timebase/collector:latest
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 2048m
+    hostname: mqtt
+    container_name: mqtt
+    ports:
+      - "4525:4521"
+      - "4526:4522"
+    restart: unless-stopped
+    volumes:
+    - mqtt:/mqtt
+    environment:
+      - Active=false
+      - Settings=/mqtt/settings
+      - Config=/mqtt/config
+      - Data=/mqtt/data
+      - Logs=/mqtt/logs
+
+  sparkplugb:
+    image: timebase/collector:latest
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 2048m
+    hostname: sparkplugb
+    container_name: sparkplugb
+    ports:
+     - "4527:4521"
+     - "4528:4522"
+    restart: unless-stopped
+    volumes:
+    - sparkplugb:/sparkplugb
+    environment:
+      - Active=false
+      - Settings=/sparkplugb/settings
+      - Config=/sparkplugb/config
+      - Data=/sparkplugb/data
+      - Logs=/sparkplugb/logs
 
   postgresql:
     container_name: postgres
@@ -121,9 +200,13 @@ volumes:
   emqx1-data:
   emqx1-log:
   n8n-data:
-  timebase_historian:
-  timebase_collector:
-  timebase_explorer:
+  pulse:
+  historian:
+  explorer:
+  simulator:
+  opcua:
+  mqtt:
+  sparkplugb:
 
 networks:
   default:
