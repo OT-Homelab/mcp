@@ -41,12 +41,15 @@ services:
   #     - emqx1-data:/opt/emqx/data
   #     - emqx1-log:/opt/emqx/log
 
-  grafana:
-    image: grafana/grafana-enterprise
-    container_name: grafana
-    restart: unless-stopped
+  mcp-grafana:
+    image: mcp/grafana
     ports:
-      - "3000:3000"
+      - "8000:8000"
+    environment:
+      - GRAFANA_URL=http://192.168.0.13:3000
+      - GRAFANA_API_KEY=glsa_your_service_account_token_here
+    command: ["-t", "streamable-http"]
+    restart: unless-stopped
     volumes:
       - grafana-data:/var/lib/grafana
 
