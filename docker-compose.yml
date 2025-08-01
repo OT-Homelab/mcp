@@ -56,7 +56,7 @@ services:
     ports:
       - "8001:8000"
     environment:
-      - GRAFANA_URL=http://192.168.0.13:3000
+      - GRAFANA_URL=http://localhost:3000
       - GRAFANA_API_KEY=glsa_your_service_account_token_here
     command: ["-t", "streamable-http"]
     restart: unless-stopped
