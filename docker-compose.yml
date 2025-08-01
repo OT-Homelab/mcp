@@ -43,6 +43,7 @@ services:
 
   mcp-grafana:
     image: mcp/grafana
+    container_name: mcp_grafana
     ports:
       - "8001:8000"
       - "3000:3000"
