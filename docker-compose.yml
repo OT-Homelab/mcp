@@ -26,20 +26,20 @@ services:
     volumes:
       - pgadmin-data:/var/lib/pgadmin
 
-  emqx1:
-    image: emqx/emqx:latest
-    container_name: emqx1
-    restart: unless-stopped    
-    environment:
-      - EMQX_NAME=emqx1
-    ports:
-      - "1884:1883"      # MQTT
-      - "18083:18083"    # Dashboard
-      - "8083:8083"      # WebSocket
-      # - "8883:8883"      # TLS         
-    volumes:
-      - emqx1-data:/opt/emqx/data
-      - emqx1-log:/opt/emqx/log
+  # emqx1:
+  #   image: emqx/emqx:latest
+  #   container_name: emqx1
+  #   restart: unless-stopped    
+  #   environment:
+  #     - EMQX_NAME=emqx1
+  #   ports:
+  #     - "1884:1883"      # MQTT
+  #     - "18083:18083"    # Dashboard
+  #     - "8083:8083"      # WebSocket
+  #     # - "8883:8883"      # TLS         
+  #   volumes:
+  #     - emqx1-data:/opt/emqx/data
+  #     - emqx1-log:/opt/emqx/log
 
   grafana:
     image: grafana/grafana-enterprise
@@ -50,25 +50,25 @@ services:
     volumes:
       - grafana-data:/var/lib/grafana
 
-  n8n:
-    image: n8nio/n8n
-    container_name: n8n
-    restart: unless-stopped
-    ports:
-      - "5678:5678"
-    environment:
-      - N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE=true
-      - N8N_SECURE_COOKIE=false
-    volumes:
-      - n8n-data:/home/node/.n8n      
+  # n8n:
+  #   image: n8nio/n8n
+  #   container_name: n8n
+  #   restart: unless-stopped
+  #   ports:
+  #     - "5678:5678"
+  #   environment:
+  #     - N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE=true
+  #     - N8N_SECURE_COOKIE=false
+  #   volumes:
+  #     - n8n-data:/home/node/.n8n      
 
 volumes:
   pg-data:
   pgadmin-data:
   grafana-data:
-  emqx1-data:
-  emqx1-log:
-  n8n-data:
+  # emqx1-data:
+  # emqx1-log:
+  # n8n-data:
 
 networks:
   default:
