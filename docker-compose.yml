@@ -50,19 +50,6 @@ services:
     volumes:
       - grafana-data:/var/lib/grafana
 
-  mcp-grafana:
-    image: mcp/grafana
-    container_name: mcp_grafana
-    ports:
-      - "8001:8000"
-    environment:
-      - GRAFANA_URL=http://localhost:3000
-      - GRAFANA_API_KEY=glsa_your_service_account_token_here
-    command: ["-t", "streamable-http"]
-    restart: unless-stopped
-    volumes:
-      - grafana-data:/var/lib/grafana
-
   # n8n:
   #   image: n8nio/n8n
   #   container_name: n8n
