@@ -5,8 +5,7 @@ CREATE TABLE uns_raw (
     dataType VARCHAR(50) NOT NULL,
     value NUMERIC NOT NULL,
     timestamp BIGINT NOT NULL,
-    qualityCode INTEGER NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    qualityCode INTEGER NOT NULL
 );
 
 -- Create indexes for better query performance
