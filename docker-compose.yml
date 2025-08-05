@@ -69,6 +69,7 @@ services:
     restart: always
     ports:
       - "8088:8088"
+      - "62541:62541"
     volumes:
       - gw-data:/usr/local/bin/ignition/data
     environment:
