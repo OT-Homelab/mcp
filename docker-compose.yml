@@ -62,6 +62,26 @@ services:
   #   volumes:
   #     - n8n-data:/home/node/.n8n      
 
+  ignition:
+    container_name: ignition
+    hostname: ignition
+    image: inductiveautomation/ignition:8.1.48
+    restart: always
+    ports:
+      - "8088:8088"
+    volumes:
+      - gw-data:/usr/local/bin/ignition/data
+    environment:
+      - ACCEPT_IGNITION_EULA=Y
+      - IGNITION_EDITION=standard
+      - TZ=Europe/Amsterdam
+    command:
+      -n ignition-homelab
+      -m 4096
+      --
+      wrapper.java.initmemory=1024
+      -Dignition.allowunsignedmodules=true
+
 volumes:
   pg-data:
   pgadmin-data:
@@ -69,6 +89,7 @@ volumes:
   # emqx1-data:
   # emqx1-log:
   # n8n-data:
+  gw-data:
 
 networks:
   default:
