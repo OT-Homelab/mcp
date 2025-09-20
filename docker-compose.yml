@@ -65,7 +65,7 @@ services:
   ignition:
     container_name: ignition
     hostname: ignition
-    image: inductiveautomation/ignition:8.1.48
+    image: inductiveautomation/ignition:8.3
     restart: always
     ports:
       - "8088:8088"
